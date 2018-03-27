@@ -16,19 +16,19 @@ as follows:
 
 | No.| Abbreviation | Prediction Deep Learning Model Architectures| 
 | ------------- |:-------------:| -----:|
-1 CF Conv1D + FC + SGD
-2 CCMF Conv1D + Conv1D + MaxPool1D + FC + SGD
-3 CMCMF Conv1D + MaxPool1D + Conv1D + MaxPool1D + FC + SGD
-4 CCMCAF Conv1D + Conv1D + MaxPool1D + Conv1D + AvgPool1D + FC + SGD
-5 CMCMCMF Conv1D + MaxPool1D + Conv1D + MaxPool1D + Conv1D + MaxPool1D + FC + SGD
-6 CCCMF Conv1D + Conv1D + Conv1D + MaxPool1D + FC + SGD
-7 CMCMCF2 Conv2D + MaxPool2D + Conv2D + MaxPool2D + Conv2D + FC + SGD
-8 CCCMF2 Conv2D + Conv2D + Conv2D + MaxPool2D + FC + SGD
-9 LLLF LSTM + LSTM + LSTM + FC + SGD
-10 CMBLF Conv1D + MaxPool1D + BDLSTM + FC + RMSprop
-11 CCMBLF Conv1D + Conv1D + MaxPool1D + BDLSTM + FC + RMSprop
-12 CMBGF Conv1D + MaxPool1D + BDGRU + FC + RMSprop
-13 CCMBGF Conv1D + Conv1D + MaxPool1D + BDGRU + FC + RMSprop
+1 | CF | Conv1D + FC + SGD
+2 | CCMF | Conv1D + Conv1D + MaxPool1D + FC + SGD
+3 | CMCMF | Conv1D + MaxPool1D + Conv1D + MaxPool1D + FC + SGD
+4 | CCMCAF | Conv1D + Conv1D + MaxPool1D + Conv1D + AvgPool1D + FC + SGD
+5 | CMCMCMF | Conv1D + MaxPool1D + Conv1D + MaxPool1D + Conv1D + MaxPool1D + FC + SGD
+6 | CCCMF | Conv1D + Conv1D + Conv1D + MaxPool1D + FC + SGD
+7 | CMCMCF2 | Conv2D + MaxPool2D + Conv2D + MaxPool2D + Conv2D + FC + SGD
+8 | CCCMF2 | Conv2D + Conv2D + Conv2D + MaxPool2D + FC + SGD
+9 | LLLF | LSTM + LSTM + LSTM + FC + SGD
+10 | CMBLF | Conv1D + MaxPool1D + BDLSTM + FC + RMSprop
+11 | CCMBLF | Conv1D + Conv1D + MaxPool1D + BDLSTM + FC + RMSprop
+12 | CMBGF | Conv1D + MaxPool1D + BDGRU + FC + RMSprop
+13 | CCMBGF | Conv1D + Conv1D + MaxPool1D + BDGRU + FC + RMSprop
 
 ``` {.py}
 library(ggmotif)
