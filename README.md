@@ -30,7 +30,7 @@ as follows:
 12 | CMBGF | Conv1D + MaxPool1D + BDGRU + FC + RMSprop
 13 | CCMBGF | Conv1D + Conv1D + MaxPool1D + BDGRU + FC + RMSprop
 
-``` {.py}
+```
 trainmat = h5py.File('./train.hdf5', 'r')
 validmat = h5py.File('./valid.hdf5', 'r')
 testmat = h5py.File('./test1.hdf5', 'r')
