@@ -10,8 +10,13 @@ The proposed deep learning methods can reduce the false positives output by the 
 
 DATA files are in fasta/ folder
 We devide positive samples into training set, sub-validation set, sub-test set and test set.
-For examples:
+For examples, they are listed in order:
+pos-train.fa	
+pos-valid.fa
+pos-test1.fa	
+pos-test2.fa	
 
+Negative samples are dealed with in the same way.
 
 
 Source codes include data processing part and model part, where data processing codes are in data-processing/ folder, models are list 
