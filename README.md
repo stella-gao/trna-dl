@@ -30,6 +30,8 @@ as follows:
 12 | CMBGF | Conv1D + MaxPool1D + BDGRU + FC + RMSprop
 13 | CCMBGF | Conv1D + Conv1D + MaxPool1D + BDGRU + FC + RMSprop
 
+
+The following PYTHON codes shows the selected best performance CCMBLF model:
 ```py
 def CCMBLF():
     model = Sequential()
