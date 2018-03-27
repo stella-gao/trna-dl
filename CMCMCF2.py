@@ -143,7 +143,7 @@ INPUT_LENGTH = 134 # 162 #688  #162
 
 print 'building model'
 
-def DeepSEA():
+def ():
     nkernels = [8,16,64]
     in_size = (1,134,4)
     l2_lam = 5e-07
