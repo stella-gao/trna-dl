@@ -9,6 +9,24 @@ The proposed deep learning methods can reduce the false positives output by the 
 =======
 
 DATA files are in fasta/ folder
+
+The data processing codes are in data-processing/ folder
+
+We use the following codes to split the postive and negative dataset into training, validation and test dataset respectively:
+```
+pos-split2.py
+neg-split2.py
+```
+
+Then we transfer fasta data file into hdf5 format data for training and evaluating our model:
+```
+hdf5-train.py	
+hdf5-valid.py	
+hdf5-test.py	
+hdf5-test2.py	
+```
+
+
 We devide positive samples into training set, sub-validation set, sub-test set and test set.
 For examples, they are listed in order:
 ```
@@ -89,4 +107,3 @@ def CCMBLF():
 
 model = CCMBLF()
 ```
-
