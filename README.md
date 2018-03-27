@@ -14,7 +14,8 @@ DATA files are in fasta/ folder
 Source codes include data processing part and model part, where data processing codes are in data-processing/ folder, models are list 
 as follows:
 
-No.| Abbreviation | Prediction Deep Learning Model Architectures
+| No.| Abbreviation | Prediction Deep Learning Model Architectures| 
+| ------------- |:-------------:| -----:|
 1 CF Conv1D + FC + SGD
 2 CCMF Conv1D + Conv1D + MaxPool1D + FC + SGD
 3 CMCMF Conv1D + MaxPool1D + Conv1D + MaxPool1D + FC + SGD
