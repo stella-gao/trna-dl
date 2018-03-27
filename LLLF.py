@@ -126,12 +126,6 @@ model.add(Dense(output_dim=1, name='preds'))
 model.add(Activation('sigmoid'))
 
 
-#print 'compiling model'
-#model.compile(loss='binary_crossentropy', optimizer='rmsprop', class_mode="binary")
-
-
-#model = load_model(model_file_name)
-
 print 'compiling model'
 sgd = SGD(lr=0.001, momentum=0.9, decay=1e-5, nesterov=True)
 model.compile(loss='binary_crossentropy', optimizer=sgd, metrics=['accuracy'])
