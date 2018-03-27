@@ -126,11 +126,7 @@ INPUT_LENGTH = 134 # 162 #688  #162
 
 
 
-def DanQ():
-    """
-    https://doi.org/10.1093/nar/gkw226
-    """
-#    _log.info('Building the model')
+def CCMBLF():
     model = Sequential()
     model.add(Convolution1D(input_dim=4,
                             input_length=134,
@@ -140,7 +136,6 @@ def DanQ():
                             activation="relu",
                             subsample_length=1))
 
-#    model.add(MaxPooling1D(pool_length=2, stride=2))
     model.add(Dropout(0.4))
 
     input_length2, input_dim2 = model.output_shape[1:]
@@ -153,15 +148,6 @@ def DanQ():
                             subsample_length=1))
 
     model.add(MaxPooling1D(pool_length=2, stride=2))
-
-
-    # model.add(Dropout(0.2))
-
-    # model.add(Bidirectional(LSTM(input_dim=320, output_dim=320,
-    #                              dropout_W=0.2, dropout_U=0.5,
-    #                              return_sequences=True)))
-
-    # model.add(Dropout(0.5))
 
     input_length0, input_dim0 = model.output_shape[1:]
 
@@ -178,16 +164,9 @@ def DanQ():
     model.add(Dense(input_dim=128, output_dim=1))
     model.add(Activation('sigmoid'))
 
-#    _log.info('Compiling model')
-#    model.compile(loss='binary_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
     return model;
 
-print 'building model'
-
-#model.compile(loss='binary_crossentropy', optimizer='rmsprop', class_mode="binary")
-
-
-model = DanQ()
+model = CCMBLF()
 
 print 'compiling model'
 sgd = SGD(lr=0.001, momentum=0.9, decay=1e-5, nesterov=True)
