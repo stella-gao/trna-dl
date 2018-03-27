@@ -30,9 +30,47 @@ as follows:
 12 | CMBGF | Conv1D + MaxPool1D + BDGRU + FC + RMSprop
 13 | CCMBGF | Conv1D + Conv1D + MaxPool1D + BDGRU + FC + RMSprop
 
-```
-trainmat = h5py.File('./train.hdf5', 'r')
-validmat = h5py.File('./valid.hdf5', 'r')
-testmat = h5py.File('./test1.hdf5', 'r')
+```py
+def CCMBLF():
+    model = Sequential()
+    model.add(Convolution1D(input_dim=4,
+                            input_length=134,
+                            nb_filter=16,
+                            filter_length=4,
+                            border_mode="valid",
+                            activation="relu",
+                            subsample_length=1))
+
+    model.add(Dropout(0.4))
+
+    input_length2, input_dim2 = model.output_shape[1:]
+    model.add(Convolution1D(input_dim=input_dim2,
+                            input_length=input_length2,
+                            nb_filter=64,
+                            filter_length=4,
+                            border_mode="valid",
+                            activation="relu",
+                            subsample_length=1))
+
+    model.add(MaxPooling1D(pool_length=2, stride=2))
+
+    input_length0, input_dim0 = model.output_shape[1:]
+
+    model.add(Bidirectional(LSTM(input_dim=input_dim0, output_dim=64,
+                                dropout_W=0.2, dropout_U=0.5,
+                                # activation='relu',
+                                return_sequences=True)))
+
+    model.add(Flatten())
+
+    model.add(Dense(output_dim=128))
+    model.add(Activation('relu'))
+
+    model.add(Dense(input_dim=128, output_dim=1))
+    model.add(Activation('sigmoid'))
+
+    return model;
+
+model = CCMBLF()
 ```
 
