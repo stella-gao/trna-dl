@@ -143,26 +143,6 @@ model.add(MaxPooling1D(pool_length=2, stride=2))
 model.add(Dropout(0.4))
 
 
-
-'''
-model.add(building_residual_block(r_input_length = input_length, r_input_dim = input_dim,
-                                  r_nb_filter = nb_filter, r_filter_length = filter_length,
-                                  is_subsample = True, n_skip =2, r_subsample = subsample))
-
-model.add(AveragePooling1D(pool_length=2, stride=2))
-model.add(Dropout(0.4))
-
-input_length, input_dim = model.output_shape[1:]
-model.add(building_residual_block(r_input_length = input_length, r_input_dim = input_dim,
-                                  r_nb_filter = nb_filter, r_filter_length = filter_length,
-                                  is_subsample = True, n_skip =2, r_subsample = subsample))
-
-model.add(AveragePooling1D(pool_length=2, stride=2))
-
-
-model.add(Dropout(0.5))
-'''
-
 #model.add(Dropout(0.5))
 
 #model.add(Flatten())
