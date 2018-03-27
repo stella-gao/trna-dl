@@ -127,10 +127,7 @@ INPUT_LENGTH = 134 # 162 #688  #162
 
 
 def DanQ():
-    """
-    https://doi.org/10.1093/nar/gkw226
-    """
-#    _log.info('Building the model')
+
     model = Sequential()
     model.add(Convolution1D(input_dim=4,
                             input_length=134,
@@ -142,13 +139,6 @@ def DanQ():
 
     model.add(MaxPooling1D(pool_length=2, stride=2))
 
-    # model.add(Dropout(0.2))
-
-    # model.add(Bidirectional(LSTM(input_dim=320, output_dim=320,
-    #                              dropout_W=0.2, dropout_U=0.5,
-    #                              return_sequences=True)))
-
-    # model.add(Dropout(0.5))
     model.add(Bidirectional(GRU(input_dim=64, output_dim=64,
                                 dropout_W=0.2, dropout_U=0.5,
                                 # activation='relu',
@@ -162,8 +152,6 @@ def DanQ():
     model.add(Dense(input_dim=128, output_dim=1))
     model.add(Activation('sigmoid'))
 
-#    _log.info('Compiling model')
-#    model.compile(loss='binary_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
     return model;
 
 print 'building model'
