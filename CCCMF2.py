@@ -111,19 +111,6 @@ trainmat = h5py.File('./train.hdf5', 'r')
 validmat = h5py.File('./valid.hdf5', 'r')
 testmat = h5py.File('./test.hdf5', 'r')
 
-'''
-X_train = np.transpose(np.array(trainmat['x_train']),axes=(0,2,1))
-y_train = np.array(trainmat['y_train'])
-
-X_test = np.transpose(np.array(testmat['x_test']),axes=(0,2,1))
-y_test = np.array(testmat['y_test'])
-
-#X_train, X_valid, y_train, y_valid = train_test_split(X, y, test_size = 0.2, random_state=7)
-
-
-X_valid = np.transpose(np.array(validmat['x_valid']),axes=(0,2,1))
-y_valid = np.array(validmat['y_valid'])
-'''
 
 X_train = np.transpose(np.expand_dims(np.array(trainmat['x_train']),3),axes=(0,3,2,1))
 y_train = np.array(trainmat['y_train'])
@@ -143,7 +130,7 @@ INPUT_LENGTH = 134 # 162 #688  #162
 
 print 'building model'
 
-def DeepSEA():
+def CCCMF2():
     nkernels = [8,16,32]
     in_size = (1,134,4)
     l2_lam = 5e-07
@@ -175,74 +162,9 @@ def DeepSEA():
     model.add(Activation('sigmoid'))
 
     return model
-'''
-model = Sequential()
-
-##first conv layer
-model.add(Convolution1D(input_dim=4,
-                        input_length=INPUT_LENGTH,
-                        nb_filter=NUM_FILTER1,
-                        filter_length=4,
-                        border_mode="valid",
-                        activation='relu',
-                        subsample_length=1, init='glorot_normal'))
-
-#model.add(MaxPooling1D(pool_length=2, stride=2))
-model.add(Dropout(0.4))
 
 
-##residual blocks
-input_length2, input_dim2 = model.output_shape[1:]
-nb_filter2 = 64
-filter_length = 2
-subsample = 1
-
-
-model.add(Convolution1D(input_dim = input_dim2,
-                        input_length = input_length2,
-                        nb_filter = nb_filter2,
-                        filter_length = 4,
-                        border_mode = "valid",
-                        activation='relu',
-                        subsample_length = 1, init = 'glorot_normal'))
-
-model.add(MaxPooling1D(pool_length=2, stride=2))
-model.add(Dropout(0.4))
-
-
-
-
-model.add(building_residual_block(r_input_length = input_length, r_input_dim = input_dim,
-                                  r_nb_filter = nb_filter, r_filter_length = filter_length,
-                                  is_subsample = True, n_skip =2, r_subsample = subsample))
-
-model.add(AveragePooling1D(pool_length=2, stride=2))
-model.add(Dropout(0.4))
-
-input_length, input_dim = model.output_shape[1:]
-model.add(building_residual_block(r_input_length = input_length, r_input_dim = input_dim,
-                                  r_nb_filter = nb_filter, r_filter_length = filter_length,
-                                  is_subsample = True, n_skip =2, r_subsample = subsample))
-
-model.add(AveragePooling1D(pool_length=2, stride=2))
-
-
-model.add(Dropout(0.5))
-
-
-#model.add(Dropout(0.5))
-
-model.add(Flatten())
-
-model.add(Dense(output_dim=64, init='glorot_uniform'))
-model.add(Activation('relu'))
-model.add(Dropout(0.2))
-
-model.add(Dense(output_dim=1, name='preds'))
-model.add(Activation('sigmoid'))
-'''
-
-model = DeepSEA()
+model = CCCMF2()
 #print 'compiling model'
 #model.compile(loss='binary_crossentropy', optimizer='rmsprop', class_mode="binary")
 
@@ -303,31 +225,7 @@ plt.ylabel("accuracy")
 plt.legend()
 plt.savefig('epochs01.png')
 
-'''
-# list all data in history
-print(history.history.keys())
 
-
-# summarize history for accuracy
-plt.figure(0)
-plt.plot(history.history['acc'])
-plt.plot(history.history['val_acc'])
-plt.title('model accuracy')
-plt.ylabel('accuracy')
-plt.xlabel('epoch')
-plt.legend(['train', 'test'], loc='upper left')
-plt.savefig('acc2.png')
-
-# summarize history for loss
-plt.figure(1)
-plt.plot(history.history['loss'])
-plt.plot(history.history['val_loss'])
-plt.title('model loss')
-plt.ylabel('loss')
-plt.xlabel('epoch')
-plt.legend(['train', 'test'], loc='upper left')
-plt.savefig('loss2.png')
-'''
 
 #plot(model, to_file='model2.png', show_shapes=True)
 
