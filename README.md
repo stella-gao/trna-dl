@@ -19,6 +19,11 @@ pos-test2.fa
 ```
 Negative samples are dealed with in the same way.
 
+The one-hot encoding method is in the following python codes:
+```
+dna_io_1mer.py
+```
+
 
 Source codes include data processing part and model part, where data processing codes are in data-processing/ folder, models are list 
 as follows:
