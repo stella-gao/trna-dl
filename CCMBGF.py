@@ -126,7 +126,7 @@ INPUT_LENGTH = 134 # 162 #688  #162
 
 
 
-def CCMBLF():
+def CCMBGF():
 
     model = Sequential()
     model.add(Convolution1D(input_dim=4,
@@ -172,7 +172,7 @@ print 'building model'
 
 
 
-model = CCMBLF()
+model = CCMBGF()
 
 print 'compiling model'
 sgd = SGD(lr=0.001, momentum=0.9, decay=1e-5, nesterov=True)
