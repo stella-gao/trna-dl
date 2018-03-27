@@ -111,19 +111,7 @@ trainmat = h5py.File('./train.hdf5', 'r')
 validmat = h5py.File('./valid.hdf5', 'r')
 testmat = h5py.File('./test.hdf5', 'r')
 
-'''
-X_train = np.transpose(np.array(trainmat['x_train']),axes=(0,2,1))
-y_train = np.array(trainmat['y_train'])
 
-X_test = np.transpose(np.array(testmat['x_test']),axes=(0,2,1))
-y_test = np.array(testmat['y_test'])
-
-#X_train, X_valid, y_train, y_valid = train_test_split(X, y, test_size = 0.2, random_state=7)
-
-
-X_valid = np.transpose(np.array(validmat['x_valid']),axes=(0,2,1))
-y_valid = np.array(validmat['y_valid'])
-'''
 
 X_train = np.transpose(np.expand_dims(np.array(trainmat['x_train']),3),axes=(0,3,2,1))
 y_train = np.array(trainmat['y_train'])
@@ -143,7 +131,7 @@ INPUT_LENGTH = 134 # 162 #688  #162
 
 print 'building model'
 
-def ():
+def CMCMCF2():
     nkernels = [8,16,64]
     in_size = (1,134,4)
     l2_lam = 5e-07
@@ -175,79 +163,9 @@ def ():
     model.add(Activation('sigmoid'))
 
     return model
-'''
-model = Sequential()
-
-##first conv layer
-model.add(Convolution1D(input_dim=4,
-                        input_length=INPUT_LENGTH,
-                        nb_filter=NUM_FILTER1,
-                        filter_length=4,
-                        border_mode="valid",
-                        activation='relu',
-                        subsample_length=1, init='glorot_normal'))
-
-#model.add(MaxPooling1D(pool_length=2, stride=2))
-model.add(Dropout(0.4))
 
 
-##residual blocks
-input_length2, input_dim2 = model.output_shape[1:]
-nb_filter2 = 64
-filter_length = 2
-subsample = 1
-
-
-model.add(Convolution1D(input_dim = input_dim2,
-                        input_length = input_length2,
-                        nb_filter = nb_filter2,
-                        filter_length = 4,
-                        border_mode = "valid",
-                        activation='relu',
-                        subsample_length = 1, init = 'glorot_normal'))
-
-model.add(MaxPooling1D(pool_length=2, stride=2))
-model.add(Dropout(0.4))
-
-
-
-
-model.add(building_residual_block(r_input_length = input_length, r_input_dim = input_dim,
-                                  r_nb_filter = nb_filter, r_filter_length = filter_length,
-                                  is_subsample = True, n_skip =2, r_subsample = subsample))
-
-model.add(AveragePooling1D(pool_length=2, stride=2))
-model.add(Dropout(0.4))
-
-input_length, input_dim = model.output_shape[1:]
-model.add(building_residual_block(r_input_length = input_length, r_input_dim = input_dim,
-                                  r_nb_filter = nb_filter, r_filter_length = filter_length,
-                                  is_subsample = True, n_skip =2, r_subsample = subsample))
-
-model.add(AveragePooling1D(pool_length=2, stride=2))
-
-
-model.add(Dropout(0.5))
-
-
-#model.add(Dropout(0.5))
-
-model.add(Flatten())
-
-model.add(Dense(output_dim=64, init='glorot_uniform'))
-model.add(Activation('relu'))
-model.add(Dropout(0.2))
-
-model.add(Dense(output_dim=1, name='preds'))
-model.add(Activation('sigmoid'))
-'''
-
-model = DeepSEA()
-#print 'compiling model'
-#model.compile(loss='binary_crossentropy', optimizer='rmsprop', class_mode="binary")
-
-
-#model = load_model(model_file_name)
+model = CMCMCF2()
 
 print 'compiling model'
 sgd = SGD(lr=0.001, momentum=0.9, decay=1e-5, nesterov=True)
@@ -343,78 +261,7 @@ predrslts = model.predict(X_test, verbose=1)
 from vis.visualization import visualize_activation
 from vis.utils import utils
 from keras import activations
-'''
-#from matplotlib import pyplot as plt
-#%matplotlib inline
-plt.rcParams['figure.figsize'] = (4, 162)
 
-# Utility to search for layer index by name. 
-# Alternatively we can specify this as -1 since it corresponds to the last layer.
-layer_idx = utils.find_layer_idx(model, 'preds')
-
-# Swap softmax with linear
-model.layers[layer_idx].activation = activations.linear
-model = utils.apply_modifications(model)
-
-# This is the output node we want to maximize.
-filter_idx = 0
-img = visualize_activation(model, layer_idx, filter_indices=filter_idx)
-outf = np.expand_dims(img, axis=0)
-plt.imsave(saliency_img_file, img)
-
-
-for idx, layer in enumerate(model.layers) :
-    print(idx)
-    print(layer.name)
-    print('~~~~')
-
-layer_name = 'conv1d_1'
-layer_idx = [idx for idx, layer in enumerate(model.layers) if layer.name == layer_name][0]
-
-#indices = [6, 8, 21, 38, 416, 423, 425]
-
-#data = pd.read_csv(data_file, nrows = np.max(indices) + 1)
-#x = X_test.reshape((data.shape[0], size, size, 1))
-#imgs = X_train[indices]
-x1 = X_test.reshape((X_test.shape[0], 1, 162, 4))
-indices = [6, 8, 21, 38, 416, 423, 425]
-imgs = x1[indices]
-
-
-vis_images = []
-heatmaps = []
-for img in imgs:
-    #seed_img = X_test[np.random.randint(i*5, 600)]
-    #x = np.expand_dims(seed_img, axis=0)
-    #x = preprocess_input(seed_img)
-    pred_class = np.argmax(model.predict(img))
-    # Here we are asking it to show attention such that prob of `pred_class` is maximized.
-    heatmap = visualize_saliency(model, layer_idx, [pred_class], img)
-    heatmaps.append(heatmap)
-
-plt.axis('off')
-plt.imsave(saliency_img_file, utils.stitch_images(heatmaps))
-'''
-#plt.title('Saliency map')
-#plt.savefig('saliency_map_cnn')
-
-#cv2.imwrite(saliency_img_file, utils.stitch_images(heatmaps, cols=2))
-#cv2.imwrite(saliency_img_file, utils.stitch_images(heatmaps))
-'''
-#plt.axis('off')
-#plt.imshow(utils.stitch_images(heatmaps))
-plt.figure(0)
-plt.imshow(utils.stitch_images(heatmaps))
-plt.title('Saliency map')
-plt.savefig('saliency_map_cnn')
-
-for img, pc in zip(imgs, predrslts):
-	heatmap = visualize_saliency(model, len(model.layers) - 1, [pc], img)
-	heatmaps.append(heatmap)
-
-cv2.imwrite(saliency_img_file, utils.stitch_images(heatmaps, cols=7))
-cv2.imwrite(original_img_file, utils.stitch_images(list(imgs), cols=7))
-'''
 auc = roc_auc_score(y_test, predrslts)
 predrslts_class = model.predict_classes(X_test, verbose=1)
 mcc = matthews_corrcoef(y_test, predrslts_class)
@@ -434,20 +281,7 @@ f1 = f1_score(y_test, predrslts_class, average='binary')
 print 'f1:', f1
 #print 'fpr:', false_positive_rate
 #print 'tpr:', true_positive_rate
-'''
-fig = plt.figure()
-#fig.savefig('temp.png', dpi=fig.dpi)
-plt.title('Receiver Operating Characteristic')
-plt.plot(false_positive_rate, true_positive_rate, 'b', label = 'AUC = %0.2f' % auc)
-plt.legend(loc = 'lower right')
-plt.plot([0, 1], [0, 1],'r--')
-plt.xlim([0, 1])
-plt.ylim([0, 1])
-plt.ylabel('True Positive Rate')
-plt.xlabel('False Positive Rate')
-#plt.show()
-fig.savefig('temp2.png', dpi=fig.dpi)
-'''
+
 
 fw = open(result_file_name, 'w')
 fw.write('\t'.join(['tresults', 'auc', 'mcc', 'acc', 'sn', 'sp']) +'\n')
